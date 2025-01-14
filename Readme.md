@@ -1,6 +1,6 @@
 # Task Blockchain
 
-This project is a simple blockchain application using Truffle and React.
+This project is a simple blockchain application using Truffle, Flask and React.
 
 ## Getting Started
 
@@ -16,8 +16,8 @@ Make sure you have the following installed:
 
 Clone the repository:
 ```sh
-git clone https://github.com/yourusername/task-blockchain.git
-cd task-blockchain
+git clone https://github.com/Surafeljava/ts-coin-agent
+cd ts-coin-agent
 ```
 
 ### Compile the Smart Contracts
@@ -38,15 +38,22 @@ truffle migrate
 
 Navigate to the frontend directory and start the React app:
 ```sh
-cd task-blockchain-frontend
+cd ai_agent_frontend
 npm install
 npm start
 ```
 
 ### Run the ai agent
 
-For now you will have to run the ai agent every time you add a new task (It will run automatically soon).
 ```sh
-# In the main directory run the following
-python ai_agent.py
+cd ai_agent
+python ai_agent_flask.py
+```
+
+### Test the ai agent
+
+```sh
+curl -X POST http://127.0.0.1:5500/process_prompt \
+-H "Content-Type: application/json" \
+-d '{"prompt": "Send 1 ETH to 0xabc123..."}'
 ```
