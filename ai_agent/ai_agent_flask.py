@@ -15,7 +15,7 @@ classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnl
 
 # Connect to local Ethereum blockchain
 w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:7545"))
-contract_address = "0x745BC5f18E62331CFCe5D719a87d988A6BEb6581"
+contract_address = "0x76E0030B7e43c08a2514bb67f74c2EEbc33694B9"
 with open("../build/contracts/EthTransactionManager.json", "r") as file:
     contract_data = json.load(file)
     abi = contract_data["abi"]
@@ -55,7 +55,7 @@ def transfer_eth(amount, recipient):
     try:
         tx_hash = contract.functions.transferETH(recipient).transact({
             "from": account,
-            "value": w3.toWei(amount, "ether"),
+            "value": w3.to_wei(amount, "ether"),
             "gas": 300000
         })
         receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
@@ -66,16 +66,18 @@ def transfer_eth(amount, recipient):
 # Function to handle show last transactions
 def get_last_transactions(count):
     try:
-        transactions = contract.functions.getLastTransactions(count).call()
-        return {"status": "success", "transactions": transactions}
+        ids, transactions = contract.functions.getLastTransactions(count).call({"gas": 500000})
+        result = [{"id": ids[i], "transaction": transactions[i]} for i in range(len(ids))]
+        return {"status": "success", "transactions": result}
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
 # Function to handle show specific transaction
 def get_transaction(transaction_id):
     try:
-        transaction = contract.functions.getTransaction(transaction_id).call()
-        return {"status": "success", "transaction": transaction}
+        transaction = contract.functions.getTransaction(transaction_id).call({"gas": 500000})
+        result = [{"id": transaction[0], "transaction": transaction[1]}]
+        return {"status": "success", "transactions": result}
     except Exception as e:
         return {"status": "error", "message": str(e)}
 

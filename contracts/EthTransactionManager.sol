@@ -22,21 +22,27 @@ contract EthTransactionManager {
     }
 
     // Get the last N transactions
-    function getLastTransactions(uint _count) public view returns (Transaction[] memory) {
+    function getLastTransactions(uint _count) public view returns (uint[] memory, Transaction[] memory) {
         uint length = transactions.length;
         if (_count > length) {
             _count = length;
         }
+        
+        uint[] memory ids = new uint[](_count);
         Transaction[] memory lastTransactions = new Transaction[](_count);
+        
         for (uint i = 0; i < _count; i++) {
-            lastTransactions[i] = transactions[length - i - 1];
+            uint index = length - i - 1;
+            ids[i] = index;
+            lastTransactions[i] = transactions[index];
         }
-        return lastTransactions;
+        
+        return (ids, lastTransactions);
     }
 
     // Get details of a specific transaction by ID
-    function getTransaction(uint _id) public view returns (Transaction memory) {
+    function getTransaction(uint _id) public view returns (uint, Transaction memory) {
         require(_id < transactions.length, "Transaction does not exist");
-        return transactions[_id];
+        return (_id, transactions[_id]);
     }
 }
