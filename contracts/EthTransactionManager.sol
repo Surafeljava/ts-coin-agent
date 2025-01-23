@@ -7,18 +7,26 @@ contract EthTransactionManager {
         address recipient;
         uint amount;
         uint timestamp;
+        string reason;
     }
 
     Transaction[] public transactions;
 
-    event Transfer(address indexed from, address indexed to, uint amount, uint timestamp);
+    event Transfer(address indexed sender, address indexed recipient, uint256 amount, string reason);
 
     // Transfer ETH and log the transaction
-    function transferETH(address payable _recipient) public payable {
-        require(msg.value > 0, "Amount must be greater than zero");
-        _recipient.transfer(msg.value);
-        transactions.push(Transaction(msg.sender, _recipient, msg.value, block.timestamp));
-        emit Transfer(msg.sender, _recipient, msg.value, block.timestamp);
+    function transferETH(address _recipient, string memory _reason) public payable {
+        require(msg.value > 0, "Amount must be greater than 0");
+
+        transactions.push(Transaction({
+            sender: msg.sender,
+            recipient: _recipient,
+            amount: msg.value,
+            timestamp: block.timestamp,
+            reason: _reason
+        }));
+
+        emit Transfer(msg.sender, _recipient, msg.value, _reason);
     }
 
     // Get the last N transactions

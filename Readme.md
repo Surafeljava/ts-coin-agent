@@ -34,6 +34,11 @@ To deploy the smart contracts to the network, run:
 truffle migrate
 ```
 
+To reset and re-deploy on development network, run:
+```sh
+truffle migrate --reset --network development
+```
+
 ### Run the Frontend Application
 
 Navigate to the frontend directory and start the React app:

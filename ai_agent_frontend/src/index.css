@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: #0a0a0a;
+      --foreground: #ededed;
+    }
+  }
+  
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  /* Apply to all scrollbars */
+  ::-webkit-scrollbar {
+    width: 4px; /* Width of the scrollbar */
+    height: 4px; /* Height of the horizontal scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f4f4f422; /* Background of the scrollbar track */
+    border-radius: 10px; /* Rounded corners */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #1698d5; /* Color of the scrollbar handle */
+    border-radius: 10px;
+    border: 0px solid #f4f4f4; /* Adds padding inside the scrollbar handle */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color when hovered */
+  }
